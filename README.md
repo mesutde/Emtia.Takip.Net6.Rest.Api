@@ -1,6 +1,6 @@
 # Emtia.Takip.Net6.Rest.Api
 
-Türkyienin en büyük Altın Satıcılarından Harem ve Gold Altınn güncel kapalıçarşı satış fiyatlarını listelendiği servis yazdım.
+Türkiye'nin en büyük Altın Satıcılarından Harem ve Gold Altınn güncel kapalıçarşı satış fiyatlarını listelendiği servis yazdım.
 Faydalı olmalı dileğiyle.
 
 
