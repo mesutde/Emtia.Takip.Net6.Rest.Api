@@ -17,7 +17,13 @@ builder.Services.AddSwaggerGen(
                }
                );
 
+WebApplicationBuilder builder1 = WebApplication.CreateBuilder(args);
+
+builder1.WebHost.UseKestrel(option => option.AddServerHeader = false);
+
 var app = builder.Build();
+
+app.UseDeveloperExceptionPage();
 
 // Configure the HTTP request pipeline.
 

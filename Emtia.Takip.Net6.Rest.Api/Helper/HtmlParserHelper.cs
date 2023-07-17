@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using HtmlAgilityPack;
+using System.Globalization;
 
 namespace Emtia.Takip.Net6.Rest.Api.Helper
 {
@@ -59,6 +60,23 @@ namespace Emtia.Takip.Net6.Rest.Api.Helper
             }
             int num2 = str.IndexOf(to, (int)(index + from.Length));
             return ((num2 == -1) ? str.Substring(index + from.Length) : str.Substring(index + from.Length, (num2 - from.Length) - index));
+        }
+
+        public static double GetDouble(string value, double defaultValue)
+        {
+            double result;
+
+            //Try parsing in the current culture
+            if (!double.TryParse(value, System.Globalization.NumberStyles.Any, CultureInfo.CurrentCulture, out result) &&
+                //Then try in US english
+                !double.TryParse(value, System.Globalization.NumberStyles.Any, CultureInfo.GetCultureInfo("en-US"), out result) &&
+                //Then in neutral language
+                !double.TryParse(value, System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out result))
+            {
+                result = defaultValue;
+            }
+
+            return result;
         }
 
         //  private string _docHtml = string.Empty;

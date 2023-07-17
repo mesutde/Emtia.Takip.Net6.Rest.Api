@@ -2,7 +2,7 @@
 {
     public class KapalicarsiMarka
     {
-        public double guncelAltin { get; set; }
+        public double guncelGramAltinTL { get; set; }
         public double guncelDolarKuru { get; set; }
         public double guncelEuroKuru { get; set; }
 

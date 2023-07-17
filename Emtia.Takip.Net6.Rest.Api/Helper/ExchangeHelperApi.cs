@@ -1,6 +1,7 @@
 ﻿using RestSharp;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
+using System.Globalization;
 using static Emtia.Takip.Net6.Rest.Api.Model.CanliDovizModel.Doviz;
 
 namespace Emtia.Takip.Net6.Rest.Api.Helper
@@ -33,18 +34,41 @@ namespace Emtia.Takip.Net6.Rest.Api.Helper
 
             string[] gumus = NadirHtmlParse[5].InnerText.Replace("Gümüş/TL", "").Trim().Split("\n");
 
+            string[] dolar = NadirHtmlParse[6].InnerText.Replace("USD/TL", "").Trim().Split("\n");
+
+            string[] euro = NadirHtmlParse[7].InnerText.Replace("EUR/TL", "").Trim().Split("\n");
+
+            string[] sterlin = NadirHtmlParse[10].InnerText.Replace("GBP/TL", "").Trim().Split("\n");
+
             KULCEALTIN GramAltin = new KULCEALTIN();
 
-            GramAltin.satis = Double.Parse(altin[2]);
-            GramAltin.alis = Double.Parse(altin[0]);
+            GramAltin.satis = Convert.ToDouble(altin[2].Replace(".", ","), CultureInfo.InvariantCulture);
+            GramAltin.alis = Convert.ToDouble(altin[0].Replace(".", ","), CultureInfo.InvariantCulture);
 
             data.KULCEALTIN = GramAltin;
 
             GUMUSTRY GramGumus = new GUMUSTRY();
+
             GramGumus.alis = Double.Parse(gumus[0]);
             GramGumus.satis = Double.Parse(gumus[2]);
-
             data.GUMUSTRY = GramGumus;
+
+            USDTRY uSDTRY = new USDTRY();
+            uSDTRY.alis = Double.Parse(dolar[0]);
+            uSDTRY.satis = Double.Parse(dolar[2]);
+
+            data.USDTRY = uSDTRY;
+
+            EURTRY eURTRY = new EURTRY();
+            eURTRY.alis = Double.Parse(euro[0]);
+            eURTRY.satis = Double.Parse(euro[2]);
+
+            data.EURTRY = eURTRY;
+
+            GBPTRY GBPTRY = new GBPTRY();
+            GBPTRY.alis = Double.Parse(sterlin[0]);
+            GBPTRY.satis = Double.Parse(sterlin[2]);
+            data.GBPTRY = GBPTRY;
 
             return data;
         }
