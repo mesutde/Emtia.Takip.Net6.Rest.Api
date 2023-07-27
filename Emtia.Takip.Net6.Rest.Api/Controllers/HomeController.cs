@@ -42,6 +42,9 @@ namespace Emtia.Takip.Net6.Rest.Api.Controllers
                 return retVal;
             }
 
+            emtia.guncelOnsAltin_USD_Alis = GuncelNadirSatis.Result.ONS.alis;
+            emtia.guncelOnsAltin_USD_satis = GuncelNadirSatis.Result.ONS.satis;
+
             emtia.guncelGramAltinTL = GuncelAltinKuru;
             emtia.guncelDolarKuru = GuncelDolarKuru;
             emtia.guncelEuroKuru = GuncelEuroKuru;
@@ -187,12 +190,6 @@ namespace Emtia.Takip.Net6.Rest.Api.Controllers
             emtia.haremDoviz = LstHaremDoviz;
             emtia.nadirDoviz = LstNadirDoviz;
 
-            //NadirDoviz nadirDoviz = new NadirDoviz();
-            //haremDoviz.Para_Birimi = "Euro";
-            //haremDoviz.AlisFiyati = 744;
-            //haremDoviz.SatisFiyati = 444444;
-
-            // paraBirimis.Add(nadirDoviz);
 
             retVal.Result = true;
             retVal.ResultCode = 200;
@@ -203,5 +200,61 @@ namespace Emtia.Takip.Net6.Rest.Api.Controllers
 
             return retVal;
         }
+
+
+
+        [Route("GetOns")]
+        [HttpGet]
+        public async Task<Response<Model.AltinOnsCalc>> GetOns()
+        {
+            Response<Model.AltinOnsCalc> retVal = new Response<Model.AltinOnsCalc>();
+
+            Model.AltinOnsCalc goldOns = new Model.AltinOnsCalc();
+
+            var GetAllHaremExchange = Helper.ExchangeHelperApi.GetAllHaremExchange();
+            var GuncelAltinKuru = Helper.ExchangeHelperApi.Guncel_Kur("TRY", "GA");
+            var GuncelDolarKuru = Helper.ExchangeHelperApi.Guncel_Kur("TRY", "USD");
+         //   var GuncelEuroKuru = Helper.ExchangeHelperApi.Guncel_Kur("TRY", "EUR");
+          //  var GuncelSterlinKuru = Helper.ExchangeHelperApi.Guncel_Kur("TRY", "GBP");
+
+            var GuncelNadirSatis = Helper.ExchangeHelperApi.GetAllNadir();
+
+            if (GetAllHaremExchange.Result.data == null || GuncelNadirSatis.Result == null)
+            {
+                retVal.Result = false;
+                retVal.ResultCode = -1;
+                retVal.Message = "İşlem Başarısuz..Veri alınamadı";
+                retVal.Comment = " ";
+                retVal.Data = null;
+                retVal.UpdateTime = DateTime.Now.ToString();
+
+                return retVal;
+            }
+
+            double onsToGram = GuncelNadirSatis.Result.ONS.satis / 31.1;
+
+            goldOns.GramAltinGuncelKurTL = GuncelAltinKuru;
+            goldOns.AltinOnsSatisUSD = GuncelNadirSatis.Result.ONS.satis;
+            goldOns.OnsToAltinGrTL = onsToGram* GuncelDolarKuru;
+
+
+
+            retVal.Result = true;
+            retVal.ResultCode = 200;
+            retVal.Message = "İşlem Başarılı";
+            retVal.Comment = " ";
+            retVal.Data = goldOns;
+            retVal.UpdateTime = DateTime.Now.ToString();
+
+            return retVal;
+        }
+
+
+
+
+
+
+
+
     }
 }

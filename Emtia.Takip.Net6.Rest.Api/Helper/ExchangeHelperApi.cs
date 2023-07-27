@@ -30,6 +30,9 @@ namespace Emtia.Takip.Net6.Rest.Api.Helper
 
             HtmlNodeCollection NadirHtmlParse = HtmlParserHelper.GetNodesToResult("https://www.nadirdoviz.com/fiyatekrani/", ".//tr[@class='trsatir']");
 
+
+            //Altın/ONS
+
             string[] altin = NadirHtmlParse[2].InnerText.Replace("Altın/TL", "").Trim().Split("\n");
 
             string[] gumus = NadirHtmlParse[5].InnerText.Replace("Gümüş/TL", "").Trim().Split("\n");
@@ -39,6 +42,16 @@ namespace Emtia.Takip.Net6.Rest.Api.Helper
             string[] euro = NadirHtmlParse[7].InnerText.Replace("EUR/TL", "").Trim().Split("\n");
 
             string[] sterlin = NadirHtmlParse[10].InnerText.Replace("GBP/TL", "").Trim().Split("\n");
+
+            string[] altinOns = NadirHtmlParse[0].InnerText.Replace("Altın/ONS", "").Trim().Split("\n");
+
+
+            ONS oNS = new ONS();
+
+            oNS.satis = Convert.ToDouble(altinOns[2].Replace(".", ","), CultureInfo.InvariantCulture);
+            oNS.alis = Convert.ToDouble(altinOns[0].Replace(".", ","), CultureInfo.InvariantCulture);
+            data.ONS = oNS;
+
 
             KULCEALTIN GramAltin = new KULCEALTIN();
 

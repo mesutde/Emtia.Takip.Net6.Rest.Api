@@ -3,6 +3,9 @@
     public class KapalicarsiMarka
     {
         public double guncelGramAltinTL { get; set; }
+
+        public double guncelOnsAltin_USD_Alis { get; set; }
+        public double guncelOnsAltin_USD_satis { get; set; }
         public double guncelDolarKuru { get; set; }
         public double guncelEuroKuru { get; set; }
 
@@ -16,6 +19,7 @@
             public double GuncelFiyat { get; set; }
             public double GuncelFiyatFarki { get; set; }
             public double Alis24Ayar { get; set; }
+
             public double Satis24Ayar { get; set; }
             public Gram Gram { get; set; }
         }

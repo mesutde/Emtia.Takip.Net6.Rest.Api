@@ -4,6 +4,7 @@ namespace Emtia.Takip.Net6.Rest.Api.Helper
     {
         public string code { get; set; }
         public double alis { get; set; }
+
         public double satis { get; set; }
         public string tarih { get; set; }
         public Dir dir { get; set; }
